@@ -64,11 +64,12 @@ def backup_to_drive():
         for p in conf['paths to backup']:
             upload(service, p, parent_id=root_folder_id)
 
-        existing_backups = ls(service, backup_folder_id)
+        existing_backups = list(filter(lambda x: platform.node() in x.name, ls(service, backup_folder_id)))
         number_of_backups_to_keep = max(1, int(conf['backups to keep']) if 'backups to keep' in conf else len(existing_backups))
         
         number_of_backups_to_delete = len(existing_backups) - number_of_backups_to_keep
         if number_of_backups_to_delete > 0:
+            log.warning('deleting %s old backup(s), current number of backups: %s', number_of_backups_to_delete, len(existing_backups))
             existing_backups.sort(key=lambda x: x.created_time)
             backups_to_delete = existing_backups[0:number_of_backups_to_delete]
             for backup in backups_to_delete:
