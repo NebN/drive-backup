@@ -41,7 +41,7 @@ with open(ROOT_PATH / 'logging.yaml', 'rt') as f:
     
     logging.config.dictConfig(config)
 
-log = logging.getLogger('development')
+log = logging.getLogger('staging')
 
 
 @dataclass
