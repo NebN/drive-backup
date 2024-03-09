@@ -1,0 +1,20 @@
+# Google Cloud credentials.json
+credentials: "/root/.secrets/credentials.json"
+
+# Optional, how many backups to keep before starting to delete the older ones 
+backups to keep: 30
+
+# Google Drive folder to use
+backup folder: "Backups"
+
+# Folders or single files
+paths to backup:
+    - "/thisdoesntexist" 
+    - "/etc/pve/lxc"
+    - "/etc/fstab"
+    - "/etc/subuid"
+    - "/etc/subgid"
+    - "/etc/passwd"
+    - "/etc/group"
+    - "/etc/network/interfaces"
+    - "/var/spool/cron/crontabs"

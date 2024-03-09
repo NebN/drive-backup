@@ -1,0 +1,38 @@
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ROOT_DIR="$SCRIPT_DIR/.."
+
+VENV_PATH=""
+
+if [ -d "$ROOT_DIR/venv" ]; then
+    VENV_PATH="$ROOT_DIR/venv"
+elif [ -d "$ROOT_DIR/env" ]; then
+    VENV_PATH="$ROOT_DIR/env"
+elif [ -d "$ROOT_DIR/.venv" ]; then
+    VENV_PATH="$ROOT_DIR/.venv"
+elif [ -d "$ROOT_DIR/.env" ]; then
+    VENV_PATH="$ROOT_DIR/.env"
+else
+    cd $ROOT_DIR
+
+    if ! command -v python3 &> /dev/null
+    then
+        python -m venv venv
+    else
+        python3 -m venv venv
+    fi
+
+    source "$ROOT_DIR/venv/bin/activate"
+    pip install -r requirements.txt
+
+    VENV_PATH="$ROOT_DIR/venv"
+fi
+
+#if [ -n "$VENV_PATH" ]; then
+#    echo "ACTIVATING $VENV_PATH/bin/activate"
+#    source "$VENV_PATH/bin/activate"
+#fi
+
+export PYTHONPATH="$PYTHONPATH:$ROOT_DIR"
+
+$VENV_PATH/bin/python $ROOT_DIR/src/drivebackup
+
